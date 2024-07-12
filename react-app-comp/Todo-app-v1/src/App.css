@@ -1,0 +1,21 @@
+h1{
+    font-weight: 700;
+    font-size: 40px;
+    margin: 20px;
+    margin-bottom: 40px;
+}
+ 
+input{
+    width: 100%;
+}
+
+.item-container{
+    text-align: left;
+}
+.js-row{
+    margin: 10px 3px;
+}
+.js-btn{
+    min-width: 50%;
+    margin-left: 80px;
+}
