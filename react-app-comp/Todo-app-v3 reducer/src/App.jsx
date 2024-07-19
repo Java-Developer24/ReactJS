@@ -6,10 +6,17 @@ import WelcomeMessage from "./components/WelcomeMessage";
 import './App.css'
 import { useState } from "react";
 import { TodoItemsContext } from "./store/todo-items-store";
+
+// const todoItemsReducer=()=>{
+//   return [];
+// }
 function App() {
   
 
-const[todoItems,setTodoItems]=useState([])
+const[todoItems,setTodoItems]=useState([]);
+
+
+// const [newTodoItems, dispatchTodoItems]=useReducer(todoItemsReducer,[]);
 
 const addNewItem=(itemName,itemDueDate)=>{
  const newTodoItems=
@@ -28,7 +35,7 @@ const deleteItem=(todoItemName)=>{
  
   return (
       <TodoItemsContext.Provider value={{
-       todoItems,
+        todoItems,
         addNewItem,
         deleteItem,
         }}>
@@ -43,5 +50,7 @@ const deleteItem=(todoItemName)=>{
     </TodoItemsContext.Provider>
   );
 }
+
+
 
 export default App;

@@ -1,52 +1,40 @@
-import { useRef } from 'react';
-import styles from './AddTodo.module.css'
-import { BiAddToQueue } from "react-icons/bi";
-import { MdDeleteSweep } from "react-icons/md";
+import { useRef } from "react";
+import { BiMessageAdd } from "react-icons/bi";
 
+function AddTodo({ onNewItem }) {
+  const todoNameElement = useRef();
+  const dueDateElement = useRef();
 
-
-
-function AddTodo({onNewItem}) {
- 
-
-  const todoNameElement=useRef();
-  const dueDateElement=useRef();
-
-
-  const handleAddButtonClicked=()=>{
-    const todoName=todoNameElement.current.value;
-    const dueDate=dueDateElement.current.value;
-    todoNameElement.current=''
-    dueDateElement.current=''
-   
-    onNewItem(todoName,dueDate);
-    
-  }
-
+  const handleAddButtonClicked = (event) => {
+    event.preventDefault();
+    const todoName = todoNameElement.current.value;
+    const dueDate = dueDateElement.current.value;
+    todoNameElement.current.value = "";
+    dueDateElement.current.value = "";
+    onNewItem(todoName, dueDate);
+  };
 
   return (
-    <div className="Todo-container">
-      <div className="row js-row">
-        <div className="col-4">
-          <input type="text" placeholder="enter the todo here" className={styles.holder} 
-          
-          ref={todoNameElement}
+    <div className="container text-center">
+      <form className="row kg-row" onSubmit={handleAddButtonClicked}>
+        <div className="col-6">
+          <input
+            type="text"
+            ref={todoNameElement}
+            placeholder="Enter Todo Here"
           />
         </div>
         <div className="col-4">
-          <input type="date" className={styles.holder} 
-          
-          ref={dueDateElement}
-         />
+          <input type="date" ref={dueDateElement} />
         </div>
         <div className="col-2">
-          <button type="button" className="btn btn-success js-btn" onClick={handleAddButtonClicked} >
-          <BiAddToQueue />
-
+          <button type="submit" className="btn btn-success kg-button">
+            <BiMessageAdd />
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
+
 export default AddTodo;
