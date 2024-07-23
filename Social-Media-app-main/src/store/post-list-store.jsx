@@ -1,30 +1,15 @@
 import { createContext, useReducer } from "react";
 
 
-const DEFAULT_POST__LIST=[{
-    id:"1",
-    title:'Going to Mumbai',
-    body:"Hi Friends, I am going to Mumbhai for my vacations",
-    reactions:10,
-    userId:"user-9",
-    tags:['travel','vacation','mumbai']
-},
-{
-    id:"2",
-    title:'Going to Delhi',
-    body:"Hi Friends, I passed my exam",
-    reactions:15,
-    userId:"user-8",
-    tags:['Graduation','vacation','Delhi']
-}
 
 
 
-]
+
 
 export const PostList=createContext({
     postList:[],
     addPost:()=>{},
+    addIntialPosts:()=>{},
     deletePost:()=>{}
 })
 
@@ -32,6 +17,9 @@ const postListReducer=(currPostList,action)=>{
     let newPostList=currPostList;
     if(action.type==="ADD_POST"){
         newPostList=[action.payload,...currPostList];
+
+    }else if(action.type==="ADD_INTIAL_POST"){
+        newPostList=action.payload.posts;
 
     }else if(action.type==="DELETE_POST"){
         newPostList=currPostList.filter((post) => post.id !== action.payload.postId);
@@ -42,24 +30,45 @@ const postListReducer=(currPostList,action)=>{
 }
 
 const PostListProvider=({children})=>{
-    const [postList,dispatchPostList]=useReducer(postListReducer,DEFAULT_POST__LIST)
+    const [postList,dispatchPostList]=useReducer(postListReducer,[])
 
-    const addPost=(userId,postTitle,postBody,reactions,tags)=>{
+    const addPost=(userId,postTitle,postBody,postLikes,postDislikes,tags,postViews)=>{
         dispatchPostList({
             type:'ADD_POST',
             payload:{
                 id:Math.floor(Math.random() * 100),
                 title:postTitle,
                 body:postBody,
-                reactions:reactions,
+                reactions:{
+                likes:postLikes,
+                dislikes:postDislikes},
                 userId:userId,
-                tags:tags
+                tags:tags,
+                views:postViews,
+                
+
+                
                 },
             }
 
         )
 
-        console.log(`${userId} ${postTitle} ${postBody} ${reactions} ${tags}`)
+        console.log(`${userId} ${postTitle} ${postBody} ${postLikes} ${postDislikes} ${postViews} ${tags}`)
+
+    }
+   
+
+    const addIntialPosts=(posts)=>{
+        dispatchPostList({
+            type:'ADD_INTIAL_POST',
+            payload:{
+                posts
+                },
+            }
+
+        )
+
+        
 
     }
     const deletePost=(postId)=>{
@@ -73,7 +82,7 @@ const PostListProvider=({children})=>{
         
 
     };
-    return <PostList.Provider value={{postList,addPost,deletePost}}>
+    return <PostList.Provider value={{postList,addPost,deletePost,addIntialPosts}}>
         {children}
     </PostList.Provider>
 

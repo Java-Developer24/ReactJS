@@ -20,7 +20,24 @@ const Post=({post})=>{
       <p className="card-text">{post.body}</p>
       {post.tags.map((tag)=>( <span key={tag} className="badge text-bg-primary hastag">{tag}</span>))}
       <div className="alert alert-success reactions" role="alert">
-This post has been reacted by {post.reactions}</div>
+      No. of likes:  {post.reactions.likes}</div>
+<div className="alert alert-success reactions" role="alert">
+No. of dislikes:  {post.reactions.dislikes}</div>
+
+
+{/* {post.reactions && (
+          <>
+            <div className="alert alert-success reactions" role="alert">
+              No. of likes: {post.reactions.likes}
+            </div>
+            <div className="alert alert-success reactions" role="alert">
+              No. of dislikes: {post.reactions.dislikes}
+            </div>
+          </>
+        )} */}
+      <div className="alert alert-success reactions" role="alert">
+No of views:  {post.views}</div>
+
     </div>
   </div>)
 }
