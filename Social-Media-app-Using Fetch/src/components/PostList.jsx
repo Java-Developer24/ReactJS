@@ -3,31 +3,11 @@ import Post from "./Post";
 import {PostList as PostListData }from "../store/post-list-store";
 import WelcomeMessage from "./WelcomeMessage";
 import LoadingSpinner from "./LoadingSpinner";
+import { useLoaderData } from "react-router-dom";
 const PostList=()=>{
-    const{postList,addIntialPosts}=useContext(PostListData)
-    const [fetching, setFetching]=useState(false);
+    // const{postList,fetching}=useContext(PostListData)
+    const postList=useLoaderData()
     
-    
-    
-
-    useEffect(()=>{
-        const controller=new AbortController();
-        const signal=controller.signal
-        setFetching(true)
-        fetch('https://dummyjson.com/posts')
-        .then(res => res.json())
-        .then((data)=>{
-            addIntialPosts(data.posts);
-            setFetching(false);
-        })
-    
-    return ()=>{
-
-        console.log("useEffect aborted");
-        controller.abort();
-    }},
-    
-        []);
 
             
             // const handleGetPostFromserver=()=>{ 
@@ -37,14 +17,23 @@ const PostList=()=>{
             //         addIntialPosts(data.posts)})}
   
 return<>
-{fetching&&<LoadingSpinner/>}
-{!fetching&&postList.length===0&&<WelcomeMessage  />}
+{/* {fetching&&<LoadingSpinner/>} */}
+{postList.length===0&&<WelcomeMessage  />}
 {/* {postList.length===0&&<WelcomeMessage handlePostData= {handleGetPostFromserver} />} */}
-{!fetching&&postList.map((post)=>(
+{postList.map((post)=>(
 <Post key={post.id} post={post}/>
     ))}
-
+ 
 
 </>
+}
+export const postLoader=()=>{
+
+    return fetch('https://dummyjson.com/posts')
+    .then(res => res.json())
+    .then((data)=>{
+        return data.posts;
+    })
+
 }
 export default PostList;
